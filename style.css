@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --accent-color: #b4b4b4;
+  --border-color: var(--text-color);
+  --button-color: #c4c4c4;
+}
+
+.dark-mode {
+  --background-color: #000000;
+  --text-color: rgb(255, 255, 255);
+  --accent-color: #494949;
+  --button-color: var(--accent-color);
+  --border-color: var(--text-color);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out,
+    border-color 0.8s ease-in-out;
+}
+
+a {
+  text-decoration: none;
+  padding-bottom: 5px;
+  color: var(--accent-color);
+  transition: color 0.8s ease-in-out, border-color 0.8s ease-in-out;
+}
+
+a:hover {
+  color: var(--text-color);
+  transition: color 0s ease-out;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  background-color: var(--button-color);
+  color: var(--text-color);
+  transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out,
+    border-color 0.8s ease-in-out;
+}
+
+nav {
+  position: fixed;
+  height: 95vh;
+  margin-left: 50px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: 800;
+}
+
+.main-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 60vh;
+  width: 60vw;
+  margin-left: 500px;
+}
+
+.main-container p {
+  position: absolute;
+  font-size: 2rem;
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  top: 0;
+  left: 0;
+  margin-top: 45vh;
+}
+
+.main-links {
+  padding-top: 40vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+  list-style: none;
+  font-weight: 800;
+}
+
+.lighting-selector {
+  border: none;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  padding: 5px;
+}
+
+.lighting-selector i {
+  font-size: 2rem;
+}
+
+#main-active-link {
+  color: var(--text-color);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#nav-active-link {
+  color: var(--text-color);
+  text-decoration: none;
+  padding-left: 10px;
+}

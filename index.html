@@ -4,8 +4,73 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ellis Walmsley</title>
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
     <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
   </head>
-  <body></body>
+  <body>
+    <nav>
+      <div class="logo-container">
+        <h1>EW</h1>
+      </div>
+      <ul class="nav-links">
+        <li class="nav-item">
+          <a href="index.html#main" id="nav-active-link">Intro</a>
+        </li>
+        <li class="nav-item"><a href="index.html#work">Work</a></li>
+        <li class="nav-item"><a href="index.html#about">About</a></li>
+        <li class="nav-item"><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <button class="lighting-selector">
+        <i class="bx bx-sun"></i>
+      </button>
+    </nav>
+
+    <main class="main-container" id="main">
+      <ul class="main-links">
+        <li class="main-link-item">
+          <a
+            href="index.html#main"
+            class="change-text"
+            data-text="Hello, I'm a web developer who cares about making beautiful things to
+            help people."
+            id="main-active-link"
+            >For anyone</a
+          >
+        </li>
+        <li class="main-link-item">
+          <a
+            class="change-text"
+            data-text="I'm a web developer with strong design skills, alongside development experience in React, TypeScript, SQL databases, and Node.js. I bring a solid technical foundation and a passion for building efficient, scalable web applications"
+            >Recruiters
+          </a>
+        </li>
+        <li class="main-link-item">
+            <a class="change-text" data-text="I'm a web developer who keeps things simple, clean, and maybe a little too obsessed with perfect margins. React, TypeScript, SQL, and Node.js — because why not build something sleek while avoiding unnecessary chaos?"">Engineers </a>
+          </li>
+        <li class="main-link-item">
+          <a class="change-text" data-text="I'm a web developer focused on creating simple, clean, and user-friendly designs. My approach emphasizes clarity, functionality, and an intuitive user experience, with a keen eye for detail and a passion for minimalism."
+            >Design Directors
+          </a>
+        </li>
+        <li class="main-link-item">
+          <a class="change-text" data-text="I'm a web developer who specializes in creating simple, clean, and intuitive designs. My focus is on building user-friendly interfaces with a minimalist approach that enhances both usability and visual appeal"
+            >Product Designers
+          </a>
+        </li>
+        <li class="main-link-item">
+          <a class="change-text" data-text="I'm a web developer focused on crafting simple, clean, and user-centered designs. I work to ensure seamless user experiences that align with product goals, providing clear, intuitive interfaces that enhance overall functionality"
+            >Product Managers
+          </a>
+        </li>
+      </ul>
+      <p class="main-text">
+        Hello, I'm a web developer who cares about making beautiful things to
+            help people.
+      </p>
+    </main>
+  </body>
 </html>
