@@ -2,18 +2,23 @@
 
 :root {
   --background-color: #ffffff;
+  --background-accent-color: #eeeeee;
   --text-color: #000000;
-  --accent-color: #b4b4b4;
+  --text-accent-color: #b4b4b4;
   --border-color: var(--text-color);
   --button-color: #c4c4c4;
+  --about-border-radius: 10px;
+  --about-background-color: #f8f8f8;
 }
 
 .dark-mode {
   --background-color: #000000;
+  --background-accent-color: #242424;
   --text-color: rgb(255, 255, 255);
-  --accent-color: #494949;
+  --text-accent-color: #494949;
   --button-color: var(--accent-color);
   --border-color: var(--text-color);
+  --about-background-color: #171717;
 }
 
 * {
@@ -23,9 +28,16 @@
   font-family: "Poppins", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);
+}
+
+body.transition-enabled {
   transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out,
     border-color 0.8s ease-in-out;
 }
@@ -33,7 +45,7 @@ body {
 a {
   text-decoration: none;
   padding-bottom: 5px;
-  color: var(--accent-color);
+  color: var(--text-accent-color);
   transition: color 0.8s ease-in-out, border-color 0.8s ease-in-out;
 }
 
@@ -55,12 +67,13 @@ button {
 
 nav {
   position: fixed;
-  height: 95vh;
+  height: 100vh;
   margin-left: 50px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 10vw;
 }
 
 .nav-links {
@@ -70,14 +83,21 @@ nav {
   font-weight: 800;
 }
 
+#main {
+  margin-left: 500px;
+}
+
+#work,
+#about {
+  margin-left: 300px;
+}
+
 .main-container {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 60vh;
   width: 60vw;
-  margin-left: 500px;
 }
 
 .main-container p {
@@ -89,6 +109,10 @@ nav {
   top: 0;
   left: 0;
   margin-top: 45vh;
+}
+
+.line-breaks {
+  white-space: pre-wrap;
 }
 
 .main-links {
@@ -116,6 +140,15 @@ nav {
   height: 50px;
   width: 50px;
   padding: 5px;
+  margin-bottom: 50px;
+  background-color: var(--text-color);
+  color: var(--background-color);
+  opacity: 80%;
+}
+
+.lighting-selector:hover {
+  opacity: 100%;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .lighting-selector i {
@@ -132,4 +165,271 @@ nav {
   color: var(--text-color);
   text-decoration: none;
   padding-left: 10px;
+}
+
+.main-container,
+.work-container,
+.about-container {
+  height: 100vh;
+}
+
+.work-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  align-items: center;
+  height: 100vh;
+  padding: 2rem; /* Prevents content from touching edges */
+  box-sizing: border-box;
+  gap: 40px;
+}
+
+.about-left,
+.about-right {
+  flex: 1;
+  min-width: 300px; /* Prevents sections from getting too narrow */
+}
+
+.about-left {
+  background-color: var(--about-background-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--about-border-radius);
+}
+
+.bio {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+.bio img {
+  flex-grow: 1;
+  width: 100%;
+  height: auto; /* Ensures it resizes properly */
+  object-fit: contain;
+  border-radius: var(--about-border-radius);
+  margin-bottom: 10px;
+}
+
+.bio-bottom {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap; /* Allows it to stack if needed */
+  margin-top: 10px;
+}
+
+.freelance,
+.location {
+  flex: 1;
+  min-width: 120px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    360deg,
+    var(--about-background-color),
+    var(--background-color)
+  );
+  border: 1px solid var(--border-color);
+
+  padding: 8px;
+  border-radius: var(--about-border-radius);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .about-left,
+  .about-right {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .bio-bottom {
+    justify-content: center;
+  }
+}
+
+.about-right {
+  margin: 100px 10vw 100px 0;
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.key-skills,
+.tech-stack,
+.contact {
+  background-color: var(--about-background-color);
+  flex: 1;
+  border-radius: var(--about-border-radius);
+}
+
+.key-skills h2,
+.tech-stack h2,
+.contact h2 {
+  font-size: 1rem;
+  padding: 10px 20px;
+  letter-spacing: 0.05rem;
+}
+
+/* .tech-stack container */
+.tech-stack {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 150px; /* Ensure a base height */
+}
+
+/* The tech-list itself */
+.tech-list {
+  flex-grow: 1; /* Ensures the list grows to take up remaining space */
+  display: flex;
+  gap: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  min-height: 120px; /* Keeps list visible */
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%; /* Ensure full width */
+  height: 100%; /* Take full height of the parent container */
+}
+
+/* Each list item */
+.tech-list li {
+  font-size: 1rem;
+  transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Stretch to fill the height */
+  position: relative;
+  flex-grow: 1; /* Ensures list items grow to fill available space */
+}
+
+.tech-list li i {
+  font-size: 3.5rem;
+  transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Stretch icons to fill the height */
+  position: relative;
+}
+
+/* Hide scrollbar */
+.tech-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tech-list {
+  scrollbar-width: none;
+}
+
+/* Hover effect */
+.tech-list li:hover {
+  transform: scale(1.1);
+}
+
+.tech-list li:hover::before {
+  opacity: 1;
+}
+
+/* Adjustments for mobile screens */
+@media (max-width: 768px) {
+  .tech-stack {
+    min-height: 120px; /* Prevent collapse */
+  }
+
+  .tech-list {
+    gap: 15px; /* Reduce gap between icons on smaller screens */
+    min-height: 80px; /* Ensure list height is visible */
+  }
+
+  .tech-list li i {
+    font-size: 2.5rem; /* Adjust icon size for mobile */
+  }
+
+  .tech-list li::before {
+    font-size: 0.8rem; /* Adjust tooltip size */
+    top: -25px; /* Adjust tooltip position */
+  }
+}
+
+.contact {
+  position: relative;
+}
+
+.contact-buttons {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.contact-buttons a {
+  border: none;
+  background-color: var(--background-accent-color);
+  color: var(--text-color);
+  padding: 5px;
+  border-radius: var(--about-border-radius);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.contact-buttons button i {
+  font-size: 1.5rem;
+}
+
+.contact::after,
+.contact::before {
+  --angle: 0deg;
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: conic-gradient(
+    from var(--angle),
+    #ff4545,
+    #ff0095,
+    #ff4545
+  );
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+  padding: 3px;
+  border-radius: var(--about-border-radius);
+}
+
+.contact::before {
+  filter: blur(1.5rem);
+  opacity: 0.5;
 }
