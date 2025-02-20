@@ -433,3 +433,160 @@ nav {
   filter: blur(1.5rem);
   opacity: 0.5;
 }
+
+/* General Mobile Adjustments */
+@media (max-width: 1024px) {
+  @media (max-width: 1024px) {
+    nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100vw;
+      height: 60px; /* Adjust height */
+      position: relative;
+      top: 0;
+      left: 0;
+      background-color: var(--background-color);
+      z-index: 100;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: auto;
+    }
+
+    .logo-container h1 {
+      font-size: 1.2rem;
+      color: var(--text-color);
+    }
+
+    .nav-links {
+      position: static; /* Reset positioning */
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .lighting-selector {
+    }
+  }
+
+  #main {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .main-container {
+    width: 90vw;
+    margin: 0 auto;
+  }
+
+  .main-container p {
+    font-size: 1rem;
+    margin-top: 20vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
+  }
+
+  .main-links {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 10vh;
+    font-size: 0.5rem;
+    left: 10vw;
+  }
+}
+
+/* Adjust About and Work Sections */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .about-left,
+  .about-right {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .work-container {
+    margin-left: 0;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .about-left {
+    padding: 15px;
+  }
+
+  .bio img {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .bio-bottom {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  #work,
+  #about {
+    margin-left: 0;
+  }
+
+  .about-right {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    padding: 0;
+    gap: 10px;
+  }
+}
+
+/* Tech Stack Mobile Adjustments */
+@media (max-width: 768px) {
+  .tech-stack {
+    min-height: 120px;
+  }
+
+  .tech-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto; /* Enable scrolling */
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .tech-list li i {
+    font-size: 2.5rem;
+  }
+
+  .main-links {
+    flex-wrap: wrap; /* Allows wrapping onto new line */
+    justify-content: center; /* Centers links */
+    text-align: center;
+    row-gap: 10px; /* Adds space between rows */
+    max-width: 80%; /* Prevents stretching too wide */
+  }
+
+  .main-links li {
+    width: 45%; /* Adjusts width so two items fit per row */
+    text-align: center;
+  }
+}
+
+/* Contact Section */
+@media (max-width: 768px) {
+  .contact-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
