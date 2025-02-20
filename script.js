@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   const location = document.querySelector(".location");
   const freelance = document.querySelector(".freelance");
+  const nav = document.querySelector("nav");
 
   // If no preference is set, enable dark mode by default
   if (!localStorage.getItem("darkMode")) {
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // After the page is fully loaded, apply the transition class
   window.addEventListener("load", () => {
     body.classList.add("transition-enabled");
+    nav.classList.add("transition-enabled");
   });
 
   // Toggle dark mode when the lighting selector is clicked
@@ -161,14 +163,3 @@ techList.addEventListener("mouseleave", () => (scrolling = true));
 
 // Start infinite scrolling
 startScrolling();
-
-// Nav mobile menu functionality
-
-document.addEventListener("DOMContentLoaded", () => {
-  const menuToggle = document.getElementById("menu-toggle");
-  const navLinks = document.querySelector(".nav-links");
-
-  menuToggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-  });
-});

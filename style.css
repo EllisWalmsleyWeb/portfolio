@@ -30,6 +30,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -38,15 +39,15 @@ body {
 }
 
 body.transition-enabled {
-  transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out,
-    border-color 0.8s ease-in-out;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out,
+    border-color 0.5s ease-in-out;
 }
 
 a {
   text-decoration: none;
   padding-bottom: 5px;
   color: var(--text-accent-color);
-  transition: color 0.8s ease-in-out, border-color 0.8s ease-in-out;
+  transition: color 0.5s ease-in-out, border-color 0.5s ease-in-out;
 }
 
 a:hover {
@@ -61,8 +62,8 @@ ul {
 button {
   background-color: var(--button-color);
   color: var(--text-color);
-  transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out,
-    border-color 0.8s ease-in-out;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out,
+    border-color 0.5s ease-in-out;
 }
 
 nav {
@@ -75,7 +76,10 @@ nav {
   justify-content: space-between;
   width: 10vw;
   background-color: var(--background-color);
-  transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out;
+}
+
+nav.transition-enabled {
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
 .nav-links {
@@ -414,6 +418,7 @@ nav {
       gap: 10px;
       margin-left: 0;
       margin-top: 0;
+      border-bottom: 1px solid var(--text-color);
     }
 
     #nav-active-link {
