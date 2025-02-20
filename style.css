@@ -246,10 +246,6 @@ nav {
   border-radius: var(--about-border-radius);
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-}
-
 .about-right {
   margin: 100px 10vw 100px 0;
   flex: 1;
@@ -343,10 +339,6 @@ nav {
   opacity: 1;
 }
 
-/* Adjustments for mobile screens */
-@media (max-width: 768px) {
-}
-
 .contact {
   position: relative;
 }
@@ -410,7 +402,7 @@ nav {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      width: 60vw;
+      width: 100vw;
       height: 60px; /* Adjust height */
       position: relative;
       top: 0;
@@ -418,6 +410,12 @@ nav {
       background-color: var(--background-color);
       z-index: 100;
       gap: 10px;
+      margin-left: 0;
+      margin-top: 0;
+    }
+
+    #nav-active-link {
+      padding-left: 0;
     }
 
     .logo-container {
@@ -425,6 +423,7 @@ nav {
       align-items: center;
       justify-content: flex-start;
       width: auto;
+      padding-left: 20px;
     }
 
     .logo-container h1 {
@@ -437,7 +436,7 @@ nav {
       display: flex;
       justify-content: center;
       flex-direction: row;
-      gap: 20px;
+      gap: 10px;
       width: 100%;
     }
 
@@ -446,6 +445,8 @@ nav {
       height: 40px; /* Slightly smaller */
       width: 40px;
       margin-bottom: 0;
+      padding: 10px;
+      margin-right: 20px;
     }
 
     .lighting-selector i {
@@ -590,16 +591,4 @@ nav {
   .bio-bottom {
     justify-content: center;
   }
-}
-
-/* Adjust About and Work Sections */
-@media (max-width: 768px) {
-}
-
-/* Tech Stack Mobile Adjustments */
-@media (max-width: 768px) {
-}
-
-/* Contact Section */
-@media (max-width: 768px) {
 }
