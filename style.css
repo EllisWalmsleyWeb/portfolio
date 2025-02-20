@@ -248,21 +248,6 @@ nav {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .about-container {
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .about-left,
-  .about-right {
-    width: 100%;
-    max-width: 500px;
-  }
-
-  .bio-bottom {
-    justify-content: center;
-  }
 }
 
 .about-right {
@@ -360,23 +345,6 @@ nav {
 
 /* Adjustments for mobile screens */
 @media (max-width: 768px) {
-  .tech-stack {
-    min-height: 120px; /* Prevent collapse */
-  }
-
-  .tech-list {
-    gap: 15px; /* Reduce gap between icons on smaller screens */
-    min-height: 80px; /* Ensure list height is visible */
-  }
-
-  .tech-list li i {
-    font-size: 2.5rem; /* Adjust icon size for mobile */
-  }
-
-  .tech-list li::before {
-    font-size: 0.8rem; /* Adjust tooltip size */
-    top: -25px; /* Adjust tooltip position */
-  }
 }
 
 .contact {
@@ -442,7 +410,7 @@ nav {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      width: 100vw;
+      width: 60vw;
       height: 60px; /* Adjust height */
       position: relative;
       top: 0;
@@ -473,6 +441,14 @@ nav {
     }
 
     .lighting-selector {
+      opacity: 0.5; /* Lower opacity for mobile */
+      height: 40px; /* Slightly smaller */
+      width: 40px;
+      margin-bottom: 0;
+    }
+
+    .lighting-selector i {
+      font-size: 1.5rem; /* Adjust icon size */
     }
   }
 
@@ -502,10 +478,7 @@ nav {
     font-size: 0.5rem;
     left: 10vw;
   }
-}
 
-/* Adjust About and Work Sections */
-@media (max-width: 768px) {
   .about-container {
     flex-direction: column;
     padding: 20px;
@@ -549,10 +522,7 @@ nav {
     padding: 0;
     gap: 10px;
   }
-}
 
-/* Tech Stack Mobile Adjustments */
-@media (max-width: 768px) {
   .tech-stack {
     min-height: 120px;
   }
@@ -581,12 +551,54 @@ nav {
     width: 45%; /* Adjusts width so two items fit per row */
     text-align: center;
   }
-}
 
-/* Contact Section */
-@media (max-width: 768px) {
   .contact-buttons {
     flex-direction: column;
     gap: 10px;
   }
+
+  .tech-stack {
+    min-height: 120px; /* Prevent collapse */
+  }
+
+  .tech-list {
+    gap: 15px; /* Reduce gap between icons on smaller screens */
+    min-height: 80px; /* Ensure list height is visible */
+  }
+
+  .tech-list li i {
+    font-size: 2.5rem; /* Adjust icon size for mobile */
+  }
+
+  .tech-list li::before {
+    font-size: 0.8rem; /* Adjust tooltip size */
+    top: -25px; /* Adjust tooltip position */
+  }
+
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-left,
+  .about-right {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .bio-bottom {
+    justify-content: center;
+  }
+}
+
+/* Adjust About and Work Sections */
+@media (max-width: 768px) {
+}
+
+/* Tech Stack Mobile Adjustments */
+@media (max-width: 768px) {
+}
+
+/* Contact Section */
+@media (max-width: 768px) {
 }
