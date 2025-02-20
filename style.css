@@ -417,6 +417,7 @@ nav {
       left: 0;
       background-color: var(--background-color);
       z-index: 100;
+      gap: 10px;
     }
 
     .logo-container {
