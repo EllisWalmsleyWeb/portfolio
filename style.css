@@ -925,12 +925,11 @@ nav.transition-enabled {
     gap: 10px;
     padding-top: 5vh;
     padding-bottom: 5vh;
-    font-size: 0.5rem;
+    font-size: 0.75rem;
     flex-wrap: wrap;
     text-align: center;
     row-gap: 10px;
     max-width: 100%;
-    border-bottom: 1px solid var(--text-color);
   }
   .main-links li {
     width: 45%;
