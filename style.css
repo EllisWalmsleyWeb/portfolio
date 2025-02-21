@@ -276,7 +276,7 @@ nav.transition-enabled {
   gap: 2rem;
   width: max-content;
   cursor: grab;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .project-grid:active {
