@@ -59,7 +59,7 @@ ul {
   list-style: none;
 }
 
-button {
+nav > button {
   background-color: var(--button-color);
   color: var(--text-color);
   transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out,
@@ -69,12 +69,12 @@ button {
 nav {
   position: fixed;
   height: 100vh;
-  margin-left: 50px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 10vw;
+  align-items: center;
+  width: 5vw;
   background-color: var(--background-color);
 }
 
@@ -95,7 +95,7 @@ nav.transition-enabled {
 
 #work,
 #about {
-  margin-left: 300px;
+  margin-left: 10vw;
 }
 
 .main-container {
@@ -104,6 +104,7 @@ nav.transition-enabled {
   flex-direction: column;
   justify-content: center;
   width: 60vw;
+  height: 100vh;
 }
 
 .main-container p {
@@ -173,17 +174,203 @@ nav.transition-enabled {
   padding-left: 10px;
 }
 
-.main-container,
-.work-container,
-.about-container {
-  height: 100vh;
-}
-
-.work-container {
+#work {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Work section styles */
+.work-container {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  overflow: hidden;
+}
+
+.work-container h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.project-grid {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  width: max-content;
+  cursor: grab;
+}
+
+.project-grid:active {
+  cursor: grabbing;
+}
+
+.project-card {
+  background-color: var(--about-background-color);
+  border-radius: var(--about-border-radius);
+  overflow: visible; /* Changed from hidden to allow gradient to show */
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  flex-shrink: 0;
+  position: relative;
+  padding: 4px; /* Added padding for the gradient border */
+}
+
+/* Base gradient container */
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 4px; /* Creates space for the gradient */
+  background: conic-gradient(from var(--angle), #ff4545, #ff0095, #ff4545);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  border-radius: var(--about-border-radius);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Glowing effect */
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(from var(--angle), #ff4545, #ff0095, #ff4545);
+  filter: blur(15px);
+  border-radius: var(--about-border-radius);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+/* Show gradients on hover */
+.project-card:hover::before,
+.project-card:hover::after {
+  opacity: 1;
+}
+
+/* Animation properties */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotate {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* Apply rotation animation on hover */
+.project-card:hover::before,
+.project-card:hover::after {
+  animation: rotate 4s linear infinite;
+}
+
+/* Ensure content sits properly over the gradient */
+.project-content {
+  background-color: var(--about-background-color);
+  border-radius: var(--about-border-radius);
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.project-image {
+  width: 100%;
+  height: 200px;
+  background-color: var(--background-accent-color);
+  position: relative;
+  z-index: 1;
+  border-radius: var(--about-border-radius) var(--about-border-radius) 0 0;
+}
+
+.project-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.project-description {
+  /* Removed color: var(--text-accent-color) to maintain full visibility */
+  color: var(--text-color);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  opacity: 0.9; /* Slight opacity for visual hierarchy while maintaining readability */
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tech-tag {
+  background-color: var(--background-accent-color);
+  color: var(--text-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.project-links {
+  margin-top: auto;
+  display: flex;
+  gap: 1rem;
+}
+
+.project-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--about-border-radius);
+  background-color: var(--background-accent-color);
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.project-link:hover {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
+.project-link i {
+  font-size: 1.2rem;
+}
+
+.project-scroll-container {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }
 
 .about-container {
@@ -550,5 +737,74 @@ nav.transition-enabled {
   .contact-buttons {
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+/* Add these media queries to your existing CSS */
+@media (max-width: 768px) {
+  .work-container {
+    gap: 2rem;
+  }
+
+  .project-scroll-container {
+    overflow-x: visible;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .project-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    cursor: default;
+    padding: 0;
+  }
+
+  .project-card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .project-image {
+    height: 180px; /* Slightly smaller height for mobile */
+  }
+
+  /* Adjust content spacing for mobile */
+  .project-content {
+    padding: 1rem;
+  }
+
+  .project-title {
+    font-size: 1.1rem;
+  }
+
+  .project-description {
+    font-size: 0.85rem;
+  }
+
+  /* Make tech tags wrap better on mobile */
+  .tech-tags {
+    gap: 0.4rem;
+  }
+
+  .tech-tag {
+    padding: 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  /* Adjust project links for better touch targets */
+  .project-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .project-link {
+    padding: 0 10px;
+    height: 30px;
+    font-size: 0.75rem;
   }
 }

@@ -160,6 +160,122 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Work section
+
+document.addEventListener("DOMContentLoaded", () => {
+  const projectGrid = document.querySelector(".project-grid");
+  const scrollContainer = document.querySelector(".project-scroll-container");
+
+  let isScrolling = true;
+  let isDragging = false;
+  let startX;
+  let scrollLeft;
+  let animationFrameId;
+  let lastScrollPosition = 0;
+  const scrollSpeed = 0.5;
+
+  // Function to check if device is mobile/tablet
+  function isMobileDevice() {
+    return window.innerWidth <= 768;
+  }
+
+  // Function to handle project cloning
+  function handleProjectCloning() {
+    // Clear existing clones first
+    const originalProjects = Array.from(projectGrid.children).slice(
+      0,
+      projectGrid.children.length / 2
+    );
+    projectGrid.innerHTML = "";
+
+    // Add original projects back
+    originalProjects.forEach((project) => {
+      projectGrid.appendChild(project.cloneNode(true));
+    });
+
+    // Only clone for desktop
+    if (!isMobileDevice()) {
+      originalProjects.forEach((project) => {
+        projectGrid.appendChild(project.cloneNode(true));
+      });
+    }
+  }
+
+  // Auto-scroll animation
+  function autoScroll() {
+    if (isScrolling && !isDragging && !isMobileDevice()) {
+      lastScrollPosition += scrollSpeed;
+
+      if (lastScrollPosition >= projectGrid.scrollWidth / 2) {
+        lastScrollPosition = 0;
+      }
+
+      scrollContainer.scrollLeft = lastScrollPosition;
+    }
+    animationFrameId = requestAnimationFrame(autoScroll);
+  }
+
+  // Initialize the layout
+  handleProjectCloning();
+
+  // Only start auto-scroll if not mobile
+  if (!isMobileDevice()) {
+    autoScroll();
+  }
+
+  // Event Listeners
+  if (!isMobileDevice()) {
+    // Desktop-only event listeners
+    scrollContainer.addEventListener("mouseenter", () => {
+      isScrolling = false;
+    });
+
+    scrollContainer.addEventListener("mouseleave", () => {
+      isScrolling = true;
+    });
+
+    scrollContainer.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      startX = e.pageX - scrollContainer.offsetLeft;
+      scrollLeft = scrollContainer.scrollLeft;
+      lastScrollPosition = scrollLeft;
+      scrollContainer.style.cursor = "grabbing";
+    });
+
+    scrollContainer.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.pageX - scrollContainer.offsetLeft;
+      const walk = (x - startX) * 2;
+      scrollContainer.scrollLeft = scrollLeft - walk;
+      lastScrollPosition = scrollContainer.scrollLeft;
+    });
+
+    scrollContainer.addEventListener("mouseup", () => {
+      isDragging = false;
+      scrollContainer.style.cursor = "grab";
+    });
+
+    scrollContainer.addEventListener("mouseleave", () => {
+      isDragging = false;
+      scrollContainer.style.cursor = "grab";
+    });
+
+    scrollContainer.addEventListener("selectstart", (e) => e.preventDefault());
+  }
+
+  // Handle resize events
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      handleProjectCloning();
+      lastScrollPosition = 0;
+      scrollContainer.scrollLeft = 0;
+    }, 250);
+  });
+});
+
 // Scrolling tech stack functionality
 const techList = document.querySelector(".tech-list");
 let scrolling = true;
