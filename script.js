@@ -162,6 +162,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Work section
 
+// Scroll indicator
+document.addEventListener("DOMContentLoaded", () => {
+  const scrollIndicator = document.querySelector(".scroll-indicator");
+
+  // Show indicator initially
+  scrollIndicator.classList.add("visible");
+
+  // Hide indicator on first scroll
+  let hasScrolled = false;
+  window.addEventListener("scroll", () => {
+    if (!hasScrolled) {
+      hasScrolled = true;
+      scrollIndicator.classList.remove("visible");
+    }
+  });
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const projectGrid = document.querySelector(".project-grid");
   const scrollContainer = document.querySelector(".project-scroll-container");
@@ -212,7 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       scrollContainer.scrollLeft = lastScrollPosition;
     }
-    animationFrameId = requestAnimationFrame(autoScroll);
+    if (!isMobileDevice()) {
+      animationFrameId = requestAnimationFrame(autoScroll);
+    }
   }
 
   // Initialize the layout
@@ -223,9 +242,8 @@ document.addEventListener("DOMContentLoaded", () => {
     autoScroll();
   }
 
-  // Event Listeners
+  // Event Listeners for desktop only
   if (!isMobileDevice()) {
-    // Desktop-only event listeners
     scrollContainer.addEventListener("mouseenter", () => {
       isScrolling = false;
     });
@@ -260,8 +278,6 @@ document.addEventListener("DOMContentLoaded", () => {
       isDragging = false;
       scrollContainer.style.cursor = "grab";
     });
-
-    scrollContainer.addEventListener("selectstart", (e) => e.preventDefault());
   }
 
   // Handle resize events
@@ -272,7 +288,55 @@ document.addEventListener("DOMContentLoaded", () => {
       handleProjectCloning();
       lastScrollPosition = 0;
       scrollContainer.scrollLeft = 0;
+
+      // Reinitialize scroll animation based on device type
+      cancelAnimationFrame(animationFrameId);
+      if (!isMobileDevice()) {
+        autoScroll();
+      }
     }, 250);
+  });
+});
+
+// Tech tag colors
+// Add this to your existing JavaScript file
+document.addEventListener("DOMContentLoaded", () => {
+  // Color mapping for different technologies
+  const techColors = {
+    React: "rgba(97, 218, 251, 0.2)",
+    JavaScript: "rgba(247, 223, 30, 0.2)",
+    TypeScript: "rgba(49, 120, 198, 0.2)",
+    "Node.js": "rgba(51, 153, 51, 0.2)",
+    Firebase: "rgba(255, 202, 40, 0.2)",
+    CSS: "rgba(38, 77, 228, 0.2)",
+    "Vue.js": "rgba(65, 184, 131, 0.2)",
+    "Next.js": "rgba(0, 0, 0, 0.2)",
+    Tailwind: "rgba(56, 189, 248, 0.2)",
+    MongoDB: "rgba(0, 237, 100, 0.2)",
+    "React Native": "rgba(97, 218, 251, 0.2)",
+    Redux: "rgba(118, 74, 188, 0.2)",
+    Express: "rgba(68, 68, 68, 0.2)",
+    "API Integration": "rgba(106, 115, 125, 0.2)",
+    Vuex: "rgba(65, 184, 131, 0.2)",
+  };
+
+  // Get all tech tags
+  const techTags = document.querySelectorAll(".tech-tag");
+
+  // For each tech tag, check its content and apply the corresponding background color
+  techTags.forEach((tag) => {
+    const tagText = tag.textContent.trim();
+    for (const [tech, color] of Object.entries(techColors)) {
+      if (tagText.includes(tech)) {
+        tag.style.backgroundColor = color;
+        // Adjust text color based on background brightness
+        const isLightBackground = tech === "JavaScript"; // Add more conditions if needed
+        tag.style.color = isLightBackground
+          ? "var(--text-color)"
+          : "var(--text-color)";
+        break; // Stop after finding the first match
+      }
+    }
   });
 });
 

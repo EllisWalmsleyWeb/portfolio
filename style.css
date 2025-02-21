@@ -104,7 +104,7 @@ nav.transition-enabled {
   flex-direction: column;
   justify-content: center;
   width: 60vw;
-  height: 100vh;
+  height: 76vh;
 }
 
 .main-container p {
@@ -185,23 +185,95 @@ nav.transition-enabled {
 /* Work section styles */
 .work-container {
   min-height: 100vh;
-  padding: 4rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 3rem;
   overflow: hidden;
 }
 
+.work-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.work-header > a {
+  color: var(--text-color);
+}
+
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-color);
+}
+
+.scroll-indicator.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.scroll-indicator i {
+  font-size: 2rem;
+  animation: bounce 2s infinite;
+}
+
+.scroll-indicator span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .scroll-indicator {
+    bottom: 1rem;
+  }
+
+  .scroll-indicator i {
+    font-size: 1.5rem;
+  }
+
+  .scroll-indicator span {
+    font-size: 0.8rem;
+  }
+}
+
 .work-container h1 {
   font-size: 2rem;
   font-weight: 600;
   text-align: center;
+  padding-bottom: 1rem;
 }
 
 .project-grid {
   display: flex;
   gap: 2rem;
-  padding: 1rem;
   width: max-content;
   cursor: grab;
 }
@@ -339,6 +411,50 @@ nav.transition-enabled {
   font-weight: 500;
 }
 
+.tech-tag:contains("React") {
+  background-color: rgba(97, 218, 251, 0.2);
+}
+
+.tech-tag:contains("JavaScript") {
+  background-color: rgba(247, 223, 30, 0.2);
+}
+
+.tech-tag:contains("TypeScript") {
+  background-color: rgba(49, 120, 198, 0.2);
+}
+
+.tech-tag:contains("Node.js") {
+  background-color: rgba(51, 153, 51, 0.2);
+}
+
+.tech-tag:contains("Firebase") {
+  background-color: rgba(255, 202, 40, 0.2);
+}
+
+.tech-tag:contains("CSS") {
+  background-color: rgba(38, 77, 228, 0.2);
+}
+
+.tech-tag:contains("Vue.js") {
+  background-color: rgba(65, 184, 131, 0.2);
+}
+
+.tech-tag:contains("Next.js") {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.tech-tag:contains("Tailwind") {
+  background-color: rgba(56, 189, 248, 0.2);
+}
+
+.tech-tag:contains("MongoDB") {
+  background-color: rgba(0, 237, 100, 0.2);
+}
+
+.tech-tag:contains("React Native") {
+  background-color: rgba(97, 218, 251, 0.2);
+}
+
 .project-links {
   margin-top: auto;
   display: flex;
@@ -375,49 +491,87 @@ nav.transition-enabled {
 
 .about-container {
   display: flex;
-  align-items: center;
-  align-items: center;
+  align-items: stretch;
   height: 100vh;
-  padding: 2rem; /* Prevents content from touching edges */
+  padding: 2rem;
   box-sizing: border-box;
   gap: 40px;
+  margin: 100px 100px 0 100px;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 .about-left,
 .about-right {
   flex: 1;
-  min-width: 300px; /* Prevents sections from getting too narrow */
+  min-width: 300px;
+  overflow-y: auto; /* Allow scrolling within sections */
+  /* Add styling for custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-accent-color) var(--background-color);
 }
 
 .about-left {
+  flex: 1;
+  max-width: calc(50% - 20px);
   background-color: var(--about-background-color);
   padding: 20px;
   display: flex;
   flex-direction: column;
   border-radius: var(--about-border-radius);
+  max-height: calc(100vh - 4rem); /* Account for container padding */
 }
 
 .bio {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  min-height: 0;
+  gap: 16px;
+  height: 100%;
 }
 
 .bio img {
-  flex-grow: 1;
-  width: 100%;
-  height: auto; /* Ensures it resizes properly */
-  object-fit: contain;
-  border-radius: var(--about-border-radius);
-  margin-bottom: 10px;
+  width: calc(100% + 40px);
+  max-height: 75%; /* Limit image height */
+  object-fit: cover;
+  border-radius: var(--about-border-radius) var(--about-border-radius) 0 0;
+  margin: -20px -20px 0 -20px;
+}
+
+.bio p {
+  margin: 0; /* Remove default margins */
+  flex-grow: 1; /* Allow text to take up available space */
+  font-size: 0.95rem; /* Slightly reduce font size */
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .bio img {
+    width: calc(100% + 30px); /* Adjust for smaller padding on mobile */
+    margin: -15px -15px 0 -15px;
+  }
+}
+
+/* Maintain responsive design */
+@media (max-width: 1024px) {
+  .about-left {
+    max-width: 100%;
+  }
+
+  .bio img {
+    max-height: 400px; /* Fixed height for mobile */
+    width: auto;
+    margin: 0 auto;
+  }
 }
 
 .bio-bottom {
+  margin-top: 0; /* Remove top margin */
   display: flex;
   gap: 10px;
-  flex-wrap: wrap; /* Allows it to stack if needed */
-  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
 .freelance,
@@ -440,21 +594,19 @@ nav.transition-enabled {
 }
 
 .about-right {
-  margin: 100px 10vw 100px 0;
   flex: 1;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 50px;
+  gap: 30px;
+  max-height: calc(100vh - 4rem); /* Account for container padding */
 }
 
 .key-skills,
 .tech-stack,
 .contact {
   background-color: var(--about-background-color);
-  flex: 1;
   border-radius: var(--about-border-radius);
+  min-height: 0; /* Allow shrinking */
 }
 
 .key-skills h2,
@@ -465,7 +617,72 @@ nav.transition-enabled {
   letter-spacing: 0.05rem;
 }
 
-/* .tech-stack container */
+/* Key skills section styling */
+.key-skills {
+  padding: 20px;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+.skill-card {
+  background-color: var(--background-accent-color);
+  border-radius: var(--about-border-radius);
+  padding: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.skill-card:hover {
+  transform: translateY(-2px);
+}
+
+.skill-category {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.skill-item {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.skill-item i {
+  font-size: 1rem;
+  color: var(--text-accent-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .skill-card {
+    padding: 12px;
+  }
+}
+
 .tech-stack {
   position: relative;
   width: 100%;
@@ -474,9 +691,10 @@ nav.transition-enabled {
   flex-direction: column;
   overflow: hidden;
   min-height: 150px; /* Ensure a base height */
+  padding: 20px;
+  flex: 1;
 }
 
-/* The tech-list itself */
 .tech-list {
   flex-grow: 1; /* Ensures the list grows to take up remaining space */
   display: flex;
@@ -490,7 +708,6 @@ nav.transition-enabled {
   height: 100%; /* Take full height of the parent container */
 }
 
-/* Each list item */
 .tech-list li {
   font-size: 1rem;
   transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
@@ -523,7 +740,6 @@ nav.transition-enabled {
   scrollbar-width: none;
 }
 
-/* Hover effect */
 .tech-list li:hover {
   transform: scale(1.1);
 }
@@ -532,8 +748,54 @@ nav.transition-enabled {
   opacity: 1;
 }
 
+/* Dynamic colors for tech stack icons */
+.tech-list li[data-name="JavaScript"] i {
+  color: #f7df1e;
+}
+
+.tech-list li[data-name="React"] i {
+  color: #61dafb;
+}
+
+.tech-list li[data-name="HTML"] i {
+  color: #e34f26;
+}
+
+.tech-list li[data-name="CSS"] i {
+  color: #264de4;
+}
+
+.tech-list li[data-name="TypeScript"] i {
+  color: #3178c6;
+}
+
+.tech-list li[data-name="PostgreSQL"] i {
+  color: #336791;
+}
+
+.tech-list li[data-name="Node.js"] i {
+  color: #339933;
+}
+
+.tech-list li[data-name="Figma"] i {
+  color: #f24e1e;
+}
+
+.tech-list li[data-name="git"] i {
+  color: #f05032;
+}
+
+.tech-list li[data-name="windows"] i {
+  color: #00a4ef;
+}
+
+.tech-list li[data-name="linux"] i {
+  color: #fcc624;
+}
 .contact {
   position: relative;
+  padding: 20px;
+  flex: 1;
 }
 
 .contact-buttons {
@@ -678,29 +940,29 @@ nav.transition-enabled {
   /* Work and About sections */
   .work-container {
     margin-left: 0;
-    width: 90%;
-    margin: 0 auto;
+    width: 100%;
   }
   #work,
   #about {
     margin-left: 0;
   }
   .about-container {
-    flex-direction: column;
-    padding: 20px;
-    align-items: center;
+    margin: 60px 20px 0 20px;
+    padding: 1rem;
+    height: auto;
+    max-height: none;
+    overflow: visible;
   }
   .about-left,
   .about-right {
-    width: 100%;
-    max-width: 500px;
+    max-height: none;
+    overflow: visible;
   }
   .about-left {
     padding: 15px;
   }
   .bio img {
-    width: 80%;
-    margin: 0 auto;
+    max-height: 300px;
   }
   .bio-bottom {
     flex-direction: column;
@@ -740,15 +1002,17 @@ nav.transition-enabled {
   }
 }
 
-/* Add these media queries to your existing CSS */
 @media (max-width: 768px) {
   .work-container {
+    padding: 2rem 1rem;
     gap: 2rem;
+    min-height: auto;
+    margin: 0 auto;
+    width: 100%;
   }
 
   .project-scroll-container {
     overflow-x: visible;
-    margin: 0 auto;
     width: 100%;
   }
 
@@ -759,12 +1023,13 @@ nav.transition-enabled {
     width: 100%;
     cursor: default;
     padding: 0;
+    transform: none !important; /* Prevent any transform animations */
   }
 
   .project-card {
     width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
+    max-width: 400px; /* Max width for better readability */
+    margin: 0 auto; /* Center the cards */
   }
 
   .project-image {
