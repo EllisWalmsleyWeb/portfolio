@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Nav link functionality
 const navLinks = document.querySelectorAll(".nav-item a");
+const sections = document.querySelectorAll("main, section");
 
 navLinks.forEach((link) => {
   link.addEventListener("click", () => {
@@ -53,6 +54,34 @@ navLinks.forEach((link) => {
     link.id = "nav-active-link";
   });
 });
+
+// Function to update active link based on scroll position
+function updateActiveNav() {
+  let currentSectionId = "";
+  sections.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    // Check if the middle of the section is in view
+    if (
+      rect.top <= window.innerHeight / 2 &&
+      rect.bottom >= window.innerHeight / 2
+    ) {
+      currentSectionId = section.id;
+    }
+  });
+  if (currentSectionId) {
+    navLinks.forEach((link) => {
+      // Match href with the current section's id
+      if (link.getAttribute("href").includes(`#${currentSectionId}`)) {
+        link.id = "nav-active-link";
+      } else {
+        link.removeAttribute("id");
+      }
+    });
+  }
+}
+
+// Update active nav link on scroll
+document.addEventListener("scroll", updateActiveNav);
 
 // Typing effect
 document.addEventListener("DOMContentLoaded", () => {
@@ -143,13 +172,13 @@ items.forEach((item) => {
 });
 
 function startScrolling() {
-  let speed = 1; // Adjust speed as needed
-
+  const speed = 1; // Adjust speed as needed
   function scroll() {
     if (scrolling) {
       techList.scrollLeft += speed;
+      // Instead of resetting to 0, subtract one cycle’s width
       if (techList.scrollLeft >= techList.scrollWidth / 2) {
-        techList.scrollLeft = 0; // Reset scroll for infinite loop
+        techList.scrollLeft -= techList.scrollWidth / 2;
       }
     }
     requestAnimationFrame(scroll);
