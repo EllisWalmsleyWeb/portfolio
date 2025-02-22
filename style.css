@@ -27,7 +27,7 @@ body {
 }
 
 main {
-  background-image: url(/assets/dark-mode-background.jpg);
+  background-image: url(assets/dark-mode-background.jpg);
   background-position: center 0%;
   background-size: cover;
   height: 100vh;
