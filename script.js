@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (index < text.length) {
           paragraph.textContent = text.substring(0, index + 1) + "|";
           index++;
-          typingTimeout = setTimeout(type, 33);
+          typingTimeout = setTimeout(type, 25);
         } else {
           clearTimeout(caretTimeout);
           paragraph.textContent = text;
