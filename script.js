@@ -182,3 +182,132 @@ window.addEventListener("resize", () => {
     nav.scrollTop = 0;
   }
 });
+
+// Scrolling between pages functionality
+document.addEventListener("DOMContentLoaded", () => {
+  // Create scroll indicator
+  const scrollIndicator = document.createElement("div");
+  scrollIndicator.className = "scroll-indicator";
+  scrollIndicator.innerHTML = '<div class="scroll-progress"></div>';
+  document.body.appendChild(scrollIndicator);
+
+  // Create navigation preview
+  const navPreview = document.createElement("div");
+  navPreview.className = "nav-preview";
+  navPreview.innerHTML = `
+    <div class="nav-preview-text">Navigating to</div>
+    <div class="nav-preview-destination"></div>
+    <button class="nav-preview-cancel">Stay here</button>
+  `;
+  document.body.appendChild(navPreview);
+
+  // Navigation state
+  let isNavigating = false;
+  let scrollTimeout;
+  let navigationTarget = null;
+  let scrollProgress = 0;
+  const scrollThreshold = 100; // Amount of scroll needed to trigger navigation
+
+  // Get current page and possible navigation targets
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+  const pages = ["index.html", "work.html", "about.html", "contact.html"];
+  const currentIndex = pages.indexOf(currentPage);
+
+  // Helper function to check if at page boundaries
+  function isAtPageBoundary() {
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // Add a small buffer (1px) to account for browser rounding
+    const atTop = scrollPosition <= 1;
+    const atBottom = Math.ceil(scrollPosition + windowHeight) >= documentHeight - 1;
+
+    return { atTop, atBottom };
+  }
+
+  // Handle scroll events
+  window.addEventListener("wheel", (e) => {
+    if (isNavigating) return;
+
+    const { atTop, atBottom } = isAtPageBoundary();
+    const scrollingUp = e.deltaY < 0;
+    const scrollingDown = e.deltaY > 0;
+
+    // Only accumulate scroll progress if at boundaries and scrolling in the right direction
+    if ((atTop && scrollingUp) || (atBottom && scrollingDown)) {
+      // Clear previous timeout
+      clearTimeout(scrollTimeout);
+
+      // Update scroll progress
+      scrollProgress += e.deltaY;
+      const progressPercent = Math.min((Math.abs(scrollProgress) / scrollThreshold) * 100, 100);
+      document.querySelector(".scroll-progress").style.height = `${progressPercent}%`;
+
+      // Show scroll indicator
+      scrollIndicator.style.opacity = "1";
+
+      // Determine navigation direction and target
+      if (Math.abs(scrollProgress) >= scrollThreshold) {
+        const direction = scrollProgress > 0 ? 1 : -1;
+        const targetIndex = (currentIndex + direction + pages.length) % pages.length;
+        navigationTarget = pages[targetIndex];
+
+        // Show navigation preview
+        isNavigating = true;
+        navPreview.classList.add("active");
+        document.querySelector(".nav-preview-destination").textContent =
+          navigationTarget.replace(".html", "").charAt(0).toUpperCase() +
+          navigationTarget.replace(".html", "").slice(1);
+
+        // Auto-navigate after delay unless cancelled
+        scrollTimeout = setTimeout(() => {
+          if (isNavigating) {
+            window.location.href = navigationTarget;
+          }
+        }, 2000);
+      }
+    } else {
+      // Reset progress if not at boundaries
+      scrollProgress = 0;
+      document.querySelector(".scroll-progress").style.height = "0%";
+      scrollIndicator.style.opacity = "0";
+    }
+  });
+
+  // Reset scroll progress when wheel stops
+  window.addEventListener(
+    "wheel",
+    debounce(() => {
+      if (!isNavigating) {
+        scrollProgress = 0;
+        document.querySelector(".scroll-progress").style.height = "0%";
+        scrollIndicator.style.opacity = "0";
+      }
+    }, 150)
+  );
+
+  // Cancel navigation
+  document.querySelector(".nav-preview-cancel").addEventListener("click", () => {
+    isNavigating = false;
+    scrollProgress = 0;
+    navigationTarget = null;
+    clearTimeout(scrollTimeout);
+    navPreview.classList.remove("active");
+    document.querySelector(".scroll-progress").style.height = "0%";
+    scrollIndicator.style.opacity = "0";
+  });
+
+  // Utility function for debouncing
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+});
