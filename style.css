@@ -132,6 +132,7 @@ main > ul > li > a {
   animation: background-pan 3s linear infinite;
   background: linear-gradient(to right, var(--purple), var(--violet), var(--pink), var(--purple));
   background-size: 200%;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
