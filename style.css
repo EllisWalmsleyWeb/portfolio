@@ -860,7 +860,9 @@ main > p {
   gap: 2rem;
   width: 100%;
   max-width: 600px;
-  padding: 0 2rem;
+  padding: 3rem 3rem;
+  border-bottom: 1px solid var(--accent-color);
+  border-top: 1px solid var(--accent-color);
 }
 
 .contact-title {
@@ -903,11 +905,9 @@ main > p {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem 3rem;
-  margin-bottom: 2rem;
   position: relative;
   width: fit-content;
-  padding: 0rem 3rem 3rem 3rem; /* Padding for border and tooltips on top and bottom */
-  border-bottom: 1px solid var(--accent-color);
+  padding: 0rem 3rem; /* Padding for border and tooltips on top and bottom */
 }
 
 .social-link {
