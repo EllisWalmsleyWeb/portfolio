@@ -175,139 +175,157 @@ const toggleNav = () => {
   }
 };
 
-// Add window resize handler to ensure scroll reset works when switching between mobile and desktop
-window.addEventListener("resize", () => {
-  const nav = document.querySelector("nav");
-  if (window.innerWidth <= 768 && document.body.dataset.nav !== "true") {
-    nav.scrollTop = 0;
-  }
-});
+const track = document.getElementById("image-track");
 
-// Scrolling between pages functionality
-document.addEventListener("DOMContentLoaded", () => {
-  // Create scroll indicator
-  const scrollIndicator = document.createElement("div");
-  scrollIndicator.className = "scroll-indicator";
-  scrollIndicator.innerHTML = '<div class="scroll-progress"></div>';
-  document.body.appendChild(scrollIndicator);
+// Initialize the track
+if (track) {
+  // Convert existing images to new structure
+  const images = track.querySelectorAll(".image");
+  images.forEach((img) => {
+    // Create new container
+    const container = document.createElement("div");
+    container.className = "image-container";
 
-  // Create navigation preview
-  const navPreview = document.createElement("div");
-  navPreview.className = "nav-preview";
-  navPreview.innerHTML = `
-    <div class="nav-preview-text">Navigating to</div>
-    <div class="nav-preview-destination"></div>
-    <button class="nav-preview-cancel">Stay here</button>
-  `;
-  document.body.appendChild(navPreview);
+    // Move image into container
+    img.parentNode.insertBefore(container, img);
+    container.appendChild(img);
 
-  // Navigation state
-  let isNavigating = false;
-  let scrollTimeout;
-  let navigationTarget = null;
-  let scrollProgress = 0;
-  const scrollThreshold = 100; // Amount of scroll needed to trigger navigation
+    // Add overlay elements
+    const overlay = document.createElement("div");
+    overlay.className = "image-overlay";
 
-  // Get current page and possible navigation targets
-  const currentPage = window.location.pathname.split("/").pop() || "index.html";
-  const pages = ["index.html", "work.html", "about.html", "contact.html"];
-  const currentIndex = pages.indexOf(currentPage);
+    const title = document.createElement("h3");
+    title.className = "project-title";
+    title.textContent = img.getAttribute("alt") || "Project Title";
 
-  // Helper function to check if at page boundaries
-  function isAtPageBoundary() {
-    const scrollPosition = window.scrollY;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
+    const description = document.createElement("p");
+    description.className = "project-description";
+    description.textContent = img.getAttribute("data-description") || "Click for more details.";
 
-    // Add a small buffer (1px) to account for browser rounding
-    const atTop = scrollPosition <= 1;
-    const atBottom = Math.ceil(scrollPosition + windowHeight) >= documentHeight - 1;
+    const infoIcon = document.createElement("i");
+    infoIcon.className = "bx bx-info-circle info-icon";
 
-    return { atTop, atBottom };
-  }
+    overlay.appendChild(title);
+    overlay.appendChild(description);
+    overlay.appendChild(infoIcon);
+    container.appendChild(overlay);
 
-  // Handle scroll events
-  window.addEventListener("wheel", (e) => {
-    if (isNavigating) return;
+    // Store href as data attribute
+    container.dataset.href = img.dataset.href;
+  });
 
-    const { atTop, atBottom } = isAtPageBoundary();
-    const scrollingUp = e.deltaY < 0;
-    const scrollingDown = e.deltaY > 0;
+  let isDragging = false;
+  let startX = 0;
+  let movementX = 0;
 
-    // Only accumulate scroll progress if at boundaries and scrolling in the right direction
-    if ((atTop && scrollingUp) || (atBottom && scrollingDown)) {
-      // Clear previous timeout
-      clearTimeout(scrollTimeout);
+  // Click handler for containers
+  track.addEventListener("click", (e) => {
+    if (movementX > 5) return; // Don't trigger click if we were dragging
 
-      // Update scroll progress
-      scrollProgress += e.deltaY;
-      const progressPercent = Math.min((Math.abs(scrollProgress) / scrollThreshold) * 100, 100);
-      document.querySelector(".scroll-progress").style.height = `${progressPercent}%`;
+    const container = e.target.closest(".image-container");
+    if (!container) return;
 
-      // Show scroll indicator
-      scrollIndicator.style.opacity = "1";
+    // Handle info icon click
+    if (e.target.classList.contains("info-icon")) {
+      const href = container.dataset.href;
+      if (href) window.location.href = href;
+      return;
+    }
 
-      // Determine navigation direction and target
-      if (Math.abs(scrollProgress) >= scrollThreshold) {
-        const direction = scrollProgress > 0 ? 1 : -1;
-        const targetIndex = (currentIndex + direction + pages.length) % pages.length;
-        navigationTarget = pages[targetIndex];
+    // Toggle active state for container
+    const wasActive = container.classList.contains("active");
 
-        // Show navigation preview
-        isNavigating = true;
-        navPreview.classList.add("active");
-        document.querySelector(".nav-preview-destination").textContent =
-          navigationTarget.replace(".html", "").charAt(0).toUpperCase() +
-          navigationTarget.replace(".html", "").slice(1);
+    // Remove active class from all containers
+    track.querySelectorAll(".image-container").forEach((cont) => {
+      cont.classList.remove("active");
+    });
 
-        // Auto-navigate after delay unless cancelled
-        scrollTimeout = setTimeout(() => {
-          if (isNavigating) {
-            window.location.href = navigationTarget;
-          }
-        }, 2000);
-      }
-    } else {
-      // Reset progress if not at boundaries
-      scrollProgress = 0;
-      document.querySelector(".scroll-progress").style.height = "0%";
-      scrollIndicator.style.opacity = "0";
+    // Toggle active state if this wasn't already active
+    if (!wasActive) {
+      container.classList.add("active");
     }
   });
 
-  // Reset scroll progress when wheel stops
-  window.addEventListener(
-    "wheel",
-    debounce(() => {
-      if (!isNavigating) {
-        scrollProgress = 0;
-        document.querySelector(".scroll-progress").style.height = "0%";
-        scrollIndicator.style.opacity = "0";
+  // Mouse and touch event handlers
+  const handleOnDown = (e) => {
+    isDragging = true;
+    startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+    track.dataset.mouseDownAt = startX;
+  };
+
+  const handleOnUp = () => {
+    isDragging = false;
+    track.dataset.mouseDownAt = "0";
+    track.dataset.prevPercentage = track.dataset.percentage;
+    setTimeout(() => {
+      movementX = 0;
+    }, 100);
+  };
+
+  const handleOnMove = (e) => {
+    if (track.dataset.mouseDownAt === "0") return;
+
+    const currentX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+    movementX = Math.abs(startX - currentX);
+
+    const mouseDelta = parseFloat(track.dataset.mouseDownAt) - currentX;
+    const maxDelta = window.innerWidth / 2;
+    const percentage = (mouseDelta / maxDelta) * -100;
+    const nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage;
+    const nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -52);
+
+    track.dataset.percentage = nextPercentage;
+
+    // Move the track
+    track.animate(
+      {
+        transform: `translate(${nextPercentage}%, -50%)`,
+      },
+      { duration: 1200, fill: "forwards" }
+    );
+
+    // Add opacity calculation for each image
+    const images = track.getElementsByClassName("image");
+    for (const image of images) {
+      // Get image position relative to the text area
+      const imageRect = image.getBoundingClientRect();
+      const textArea = document.querySelector(".work-text").getBoundingClientRect();
+
+      // Calculate distance to text area
+      const distanceToText = imageRect.left - textArea.right;
+
+      // Fade out as images get closer to text
+      if (distanceToText < 5) {
+        const opacity = Math.max(0, distanceToText / 5);
+        image.style.opacity = opacity;
+      } else {
+        image.style.opacity = 1;
       }
-    }, 150)
-  );
 
-  // Cancel navigation
-  document.querySelector(".nav-preview-cancel").addEventListener("click", () => {
-    isNavigating = false;
-    scrollProgress = 0;
-    navigationTarget = null;
-    clearTimeout(scrollTimeout);
-    navPreview.classList.remove("active");
-    document.querySelector(".scroll-progress").style.height = "0%";
-    scrollIndicator.style.opacity = "0";
+      // Update object position
+      image.animate(
+        {
+          objectPosition: `${100 + nextPercentage}% center`,
+        },
+        { duration: 1200, fill: "forwards" }
+      );
+    }
+  };
+
+  // Add event listeners
+  window.addEventListener("mousedown", handleOnDown);
+  window.addEventListener("touchstart", handleOnDown);
+  window.addEventListener("mouseup", handleOnUp);
+  window.addEventListener("touchend", handleOnUp);
+  window.addEventListener("mousemove", handleOnMove);
+  window.addEventListener("touchmove", handleOnMove);
+
+  // Initialize track percentage
+  track.dataset.percentage = 0;
+  track.dataset.prevPercentage = 0;
+
+  // Prevent image dragging
+  track.querySelectorAll("img").forEach((img) => {
+    img.addEventListener("dragstart", (e) => e.preventDefault());
   });
-
-  // Utility function for debouncing
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-});
+}
